@@ -41,7 +41,9 @@ except Exception as e:
     print(json.dumps({"error": str(e)}))
 `;
 
-    const py = spawn("python3", ["-c", pythonScript]);
+    const py = spawn("python3", ["-c", pythonScript], {
+      env: { ...process.env, PYTHONPATH: path.join(process.cwd(), ".pythonlibs/lib/python3.11/site-packages") }
+    });
     let output = "";
 
     py.stdout.on("data", (data) => {
@@ -142,6 +144,8 @@ export async function registerRoutes(
         input.cholesterol, input.fastingBS, input.restingECG,
         input.maxHR, input.exerciseAngina, input.oldpeak, input.stSlope
       ];
+      // Map frontend fields to heart.csv column order if different
+      // heart.csv: age,sex,chest_pain_type,resting_bp_s,cholesterol,fasting_blood_sugar,resting_ecg,max_heart_rate,exercise_angina,oldpeak,st_slope,target
       const result = await runPythonPrediction('heart', features);
 
       await storage.createPrediction({

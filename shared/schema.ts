@@ -35,15 +35,15 @@ export const diabetesInputSchema = z.object({
 export const heartInputSchema = z.object({
   age: z.coerce.number().min(0).max(120),
   sex: z.coerce.number().int().min(0).max(1), // 0 or 1
-  chestPainType: z.coerce.number().int().min(0).max(4),
+  chestPainType: z.coerce.number().min(0).max(4),
   restingBP: z.coerce.number().min(0).max(250),
   cholesterol: z.coerce.number().min(0).max(600),
-  fastingBS: z.coerce.number().int().min(0).max(1),
-  restingECG: z.coerce.number().int().min(0).max(2),
+  fastingBS: z.coerce.number().min(0).max(1),
+  restingECG: z.coerce.number().min(0).max(2),
   maxHR: z.coerce.number().min(0).max(250),
-  exerciseAngina: z.coerce.number().int().min(0).max(1),
+  exerciseAngina: z.coerce.number().min(0).max(1),
   oldpeak: z.coerce.number().min(0).max(10),
-  stSlope: z.coerce.number().int().min(0).max(2),
+  stSlope: z.coerce.number().min(0).max(3),
 });
 
 // 3. Parkinson's (22 fields)
