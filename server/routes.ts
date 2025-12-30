@@ -12,8 +12,8 @@ async function runPythonPrediction(modelName: string, features: number[]): Promi
   return new Promise((resolve, reject) => {
     const modelPath = path.join(process.cwd(), "models", `${modelName}_model.pkl`);
     
-    // Check if model exists, fallback to simulation (Currently forced to simulation due to environment constraints)
-    if (true || !fs.existsSync(modelPath)) {
+    // Check if model exists, fallback to simulation if not
+    if (!fs.existsSync(modelPath)) {
       if (modelName === 'diabetes') return resolve(simulateDiabetesPrediction(features as any));
       if (modelName === 'heart') return resolve(simulateHeartPrediction(features as any));
       if (modelName === 'parkinson') return resolve(simulateParkinsonsPrediction(features as any));
