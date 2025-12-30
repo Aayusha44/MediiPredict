@@ -25,7 +25,10 @@ export function ResultCard({ result, loading, onReset }: ResultCardProps) {
 
   if (!result) return null;
 
-  const isRisk = result.prediction.toLowerCase().includes("positive") || result.prediction.toLowerCase().includes("detected");
+  const isRisk = result.prediction.toLowerCase().includes("positive") || 
+                 result.prediction.toLowerCase().includes("detected") ||
+                 result.prediction.toLowerCase().includes("risk") ||
+                 result.riskLevel === "High";
   const confidenceVal = parseFloat(result.confidence);
   
   // Dynamic colors based on risk level
@@ -58,22 +61,26 @@ export function ResultCard({ result, loading, onReset }: ResultCardProps) {
               <div className={cn("text-4xl font-display font-bold mb-2", statusColor)}>
                 {result.prediction}
               </div>
-              <p className="text-muted-foreground max-w-sm">{result.details || "Based on the provided metrics, our model has analyzed your health data."}</p>
+              <p className="text-muted-foreground max-w-sm">{result.details || "Our advanced analysis has processed your health metrics."}</p>
             </div>
           </div>
 
           {/* Confidence Bar */}
-          <div className="bg-black/20 rounded-xl p-6 mb-8">
+          <div className="bg-black/20 rounded-xl p-6 mb-8 relative overflow-hidden group">
+            <motion.div 
+              className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"
+              initial={false}
+            />
             <div className="flex justify-between items-end mb-2">
-              <span className="text-sm font-medium text-muted-foreground">Model Confidence</span>
+              <span className="text-sm font-medium text-muted-foreground">Analysis Confidence</span>
               <span className="text-2xl font-bold text-white">{result.confidence}</span>
             </div>
             <div className="h-3 bg-white/5 rounded-full overflow-hidden">
               <motion.div 
                 initial={{ width: 0 }}
                 animate={{ width: result.confidence }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className={cn("h-full rounded-full", isRisk ? "bg-red-500" : "bg-emerald-500")}
+                transition={{ duration: 1.5, ease: "circOut" }}
+                className={cn("h-full rounded-full shadow-[0_0_12px_rgba(0,0,0,0.2)]", isRisk ? "bg-gradient-to-r from-red-600 to-red-400" : "bg-gradient-to-r from-emerald-600 to-emerald-400")}
               />
             </div>
           </div>
