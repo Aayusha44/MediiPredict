@@ -75,36 +75,63 @@ except Exception as e:
 }
 
 function simulateDiabetesPrediction(input: any): PredictionResponse {
-  const values = Array.isArray(input) ? input : [input.glucose, input.bmi, input.age];
   const glucose = Array.isArray(input) ? input[1] : input.glucose;
+  const bmi = Array.isArray(input) ? input[5] : input.bmi;
+  const age = Array.isArray(input) ? input[7] : input.age;
+  
   let score = 0;
   if (glucose > 140) score += 3;
-  const probability = Math.min(0.98, Math.max(0.02, (score / 8) * 0.9 + 0.1));
+  if (bmi > 30) score += 2;
+  if (age > 45) score += 1;
+  
+  const probability = Math.min(0.98, Math.max(0.02, (score / 6) * 0.9 + 0.1));
+  const isPositive = probability > 0.5;
+
   return {
-    prediction: probability > 0.5 ? "Positive (Diabetic)" : "Negative (Healthy)",
+    prediction: isPositive ? "Positive (Diabetic)" : "Negative (Healthy)",
     confidence: (probability * 100).toFixed(1) + "%",
     riskLevel: probability > 0.7 ? "High" : probability > 0.4 ? "Medium" : "Low",
-    details: "Simulated result (Model not trained yet)"
+    details: "Simulation based on glucose, BMI and age risk factors. Model not yet trained."
   };
 }
 
 function simulateHeartPrediction(input: any): PredictionResponse {
-  const probability = 0.5;
+  const age = Array.isArray(input) ? input[0] : input.age;
+  const maxHR = Array.isArray(input) ? input[7] : input.maxHR;
+  const chestPain = Array.isArray(input) ? input[2] : input.chestPainType;
+  
+  let score = 0;
+  if (age > 50) score += 1;
+  if (maxHR < 150) score += 1;
+  if (chestPain > 0) score += 2;
+  
+  const probability = Math.min(0.95, Math.max(0.05, (score / 4) * 0.8 + 0.1));
+  const isPositive = probability > 0.5;
+
   return {
-    prediction: "Normal",
-    confidence: "50.0%",
-    riskLevel: "Low",
-    details: "Simulated result (Model not trained yet)"
+    prediction: isPositive ? "Heart Disease Detected" : "Normal",
+    confidence: (probability * 100).toFixed(1) + "%",
+    riskLevel: probability > 0.7 ? "High" : probability > 0.4 ? "Medium" : "Low",
+    details: "Simulation based on age, HR and chest pain symptoms. Model not yet trained."
   };
 }
 
 function simulateParkinsonsPrediction(input: any): PredictionResponse {
-  const probability = 0.5;
+  const jitter = Array.isArray(input) ? input[3] : input.mdvpJitterPct;
+  const shimmer = Array.isArray(input) ? input[8] : input.mdvpShimmer;
+  
+  let score = 0;
+  if (jitter > 0.005) score += 2;
+  if (shimmer > 0.03) score += 2;
+  
+  const probability = Math.min(0.95, Math.max(0.05, (score / 4) * 0.8 + 0.1));
+  const isPositive = probability > 0.5;
+
   return {
-    prediction: "Healthy",
-    confidence: "50.0%",
-    riskLevel: "Low",
-    details: "Simulated result (Model not trained yet)"
+    prediction: isPositive ? "Parkinson's Detected" : "Healthy",
+    confidence: (probability * 100).toFixed(1) + "%",
+    riskLevel: probability > 0.7 ? "High" : probability > 0.4 ? "Medium" : "Low",
+    details: "Simulation based on vocal jitter and shimmer markers. Model not yet trained."
   };
 }
 
