@@ -4,6 +4,41 @@ import { serveStatic } from "./static";
 import { createServer } from "http";
 
 const app = express();
+import { setupAuth } from "./auth";
+   setupAuth(app);
+```
+5. Click **"Commit changes"** ✅
+
+---
+
+## 🚀 MISSION 2 — Deploy on Replit
+
+This is the easiest part because **Replit auto-deploys from GitHub!**
+
+---
+
+### Step 1 — Open your Replit project
+Go to 👉 **replit.com** and open your MediPredict project
+
+---
+
+### Step 2 — Pull the latest changes from GitHub
+
+In Replit, look for the **Git** tab on the left sidebar (looks like a branch icon 🌿). Click it, then click **"Pull"** — this brings in all the new files you just added on GitHub.
+
+---
+
+### Step 3 — Run the project
+
+Click the big green **▶ Run** button at the top. Replit will install everything and start your app.
+
+---
+
+### Step 4 — Get your live URL
+
+Once it's running, Replit shows a **live URL** at the top right — it looks like:
+```
+https://medipredict.yourusername.repl.co
 const httpServer = createServer(app);
 
 declare module "http" {
